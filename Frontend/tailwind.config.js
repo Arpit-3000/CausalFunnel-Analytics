@@ -7,6 +7,9 @@ export default {
   darkMode: 'class',
   theme: {
     extend: {
+      fontFamily: {
+        sans: ['Lora', 'serif', 'system-ui', '-apple-system'],
+      },
       colors: {
         primary: {
           50: '#f0f9ff',

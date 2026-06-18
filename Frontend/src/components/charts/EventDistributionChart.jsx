@@ -3,19 +3,18 @@ import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend } from 'recha
 const EventDistributionChart = ({ data, loading }) => {
   if (loading) {
     return (
-      <div className="card p-6">
-        <div className="animate-pulse">
-          <div className="h-6 bg-gray-200 rounded w-1/3 mb-4"></div>
-          <div className="h-64 bg-gray-200 rounded"></div>
-        </div>
+      <div className="animate-pulse">
+        <div className="h-6 bg-gray-200 dark:bg-gray-700 rounded w-1/3 mb-4"></div>
+        <div className="h-64 bg-gray-200 dark:bg-gray-700 rounded"></div>
       </div>
     );
   }
 
   if (!data || (data.clicks === 0 && data.pageViews === 0)) {
     return (
-      <div className="card p-6">
-        <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Event Distribution</h3>
+      <div>
+        <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-1">Event Distribution</h3>
+        <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">Breakdown by event type</p>
         <div className="h-64 flex items-center justify-center text-gray-500 dark:text-gray-400">
           No analytics data available
         </div>
@@ -24,32 +23,45 @@ const EventDistributionChart = ({ data, loading }) => {
   }
 
   const chartData = [
-    { name: 'Click Events', value: data.clicks, color: '#8b5cf6' },
-    { name: 'Page Views', value: data.pageViews, color: '#0ea5e9' }
+    { name: 'Page View', value: data.pageViews, color: '#3b82f6' },
+    { name: 'Click', value: data.clicks, color: '#10b981' }
   ];
 
-  const COLORS = ['#8b5cf6', '#0ea5e9'];
+  const COLORS = ['#3b82f6', '#10b981'];
+  const total = data.clicks + data.pageViews;
 
-  const renderLabel = (entry) => {
-    const total = data.clicks + data.pageViews;
-    const percentage = ((entry.value / total) * 100).toFixed(1);
-    return `${percentage}%`;
-  };
+  const CustomLegend = () => (
+    <div className="mt-6 space-y-2">
+      {chartData.map((entry, index) => {
+        const percentage = ((entry.value / total) * 100).toFixed(0);
+        return (
+          <div key={index} className="flex items-center justify-between">
+            <div className="flex items-center space-x-2">
+              <span className="w-3 h-3 rounded-full" style={{ backgroundColor: entry.color }}></span>
+              <span className="text-sm text-gray-600 dark:text-gray-400">{entry.name}</span>
+            </div>
+            <span className="text-sm font-semibold text-gray-900 dark:text-white">{percentage}%</span>
+          </div>
+        );
+      })}
+    </div>
+  );
 
   return (
-    <div className="card p-6">
-      <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Event Distribution</h3>
-      <ResponsiveContainer width="100%" height={300}>
+    <div>
+      <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-1">Event Distribution</h3>
+      <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">Breakdown by event type</p>
+      <ResponsiveContainer width="100%" height={200}>
         <PieChart>
           <Pie
             data={chartData}
             cx="50%"
             cy="50%"
-            labelLine={false}
-            label={renderLabel}
-            outerRadius={100}
+            innerRadius={60}
+            outerRadius={90}
             fill="#8884d8"
             dataKey="value"
+            strokeWidth={0}
           >
             {chartData.map((entry, index) => (
               <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
@@ -63,13 +75,9 @@ const EventDistributionChart = ({ data, loading }) => {
               boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
             }}
           />
-          <Legend 
-            verticalAlign="bottom" 
-            height={36}
-            iconType="circle"
-          />
         </PieChart>
       </ResponsiveContainer>
+      <CustomLegend />
     </div>
   );
 };

@@ -5,6 +5,7 @@ import SearchFilter from '../components/SearchFilter';
 import EventTrendChart from '../components/charts/EventTrendChart';
 import EventDistributionChart from '../components/charts/EventDistributionChart';
 import SessionTrendChart from '../components/charts/SessionTrendChart';
+import ThemeToggle from '../components/ThemeToggle';
 import { analyticsAPI } from '../services/api';
 
 const Dashboard = () => {
@@ -75,10 +76,10 @@ const Dashboard = () => {
 
   const getCurrentDate = () => {
     return new Date().toLocaleDateString('en-US', {
-      weekday: 'long',
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
+      weekday: 'short',
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric'
     });
   };
 
@@ -86,23 +87,30 @@ const Dashboard = () => {
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       {/* Header */}
       <header className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 sticky top-0 z-10 shadow-sm">
-        <div className="px-8 py-6">
+        <div className="px-8 py-4">
           <div className="flex justify-between items-center">
-            <div>
-              <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Analytics Overview</h1>
-              <p className="text-gray-500 dark:text-gray-400 mt-1">{getCurrentDate()}</p>
+            <h1 className="text-xl font-semibold text-gray-900 dark:text-white">Analytics Overview</h1>
+            
+            <div className="flex items-center space-x-4">
+              <span className="text-sm text-gray-500 dark:text-gray-400">{getCurrentDate()}</span>
+              
+              <div className="relative">
+                <input
+                  type="text"
+                  placeholder="Search..."
+                  className="w-64 pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-sm text-gray-900 dark:text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                />
+                <svg className="absolute left-3 top-2.5 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+              </div>
+              
+              <ThemeToggle />
+              
+              <button className="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center text-white font-semibold text-sm hover:bg-blue-700 transition-colors">
+                AK
+              </button>
             </div>
-            <button
-              onClick={() => {
-                fetchData();
-                fetchChartData();
-              }}
-              className="btn-primary flex items-center space-x-2"
-              disabled={loading}
-            >
-              <span>{loading ? '⟳' : '↻'}</span>
-              <span>Refresh</span>
-            </button>
           </div>
         </div>
       </header>
@@ -120,26 +128,26 @@ const Dashboard = () => {
           <StatCard
             title="Total Sessions"
             value={stats?.totalSessions}
-            icon="▪"
             color="primary"
+            trend="+12.4%"
           />
           <StatCard
             title="Total Events"
             value={stats?.totalEvents}
-            icon="▪"
             color="green"
+            trend="+8.7%"
           />
           <StatCard
             title="Total Clicks"
             value={stats?.totalClicks}
-            icon="▪"
             color="purple"
+            trend="-2.1%"
           />
           <StatCard
             title="Page Views"
             value={stats?.totalPageViews}
-            icon="▪"
             color="orange"
+            trend="+16.3%"
           />
         </div>
 
@@ -160,19 +168,45 @@ const Dashboard = () => {
         </div>
 
         {/* Sessions Section */}
-        <div>
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Recent Sessions</h2>
-          
-          {/* Search Filter */}
-          <SearchFilter
-            value={searchQuery}
-            onChange={setSearchQuery}
-            placeholder="Search Session ID..."
-          />
+        <div className="card p-6">
+          {/* Header with tabs */}
+          <div className="border-b border-gray-200 dark:border-gray-700 mb-6">
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Recent Sessions</h2>
+              <div className="flex items-center space-x-3">
+                {/* Search Filter */}
+                <div className="relative">
+                  <input
+                    type="text"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    placeholder="Search session ID..."
+                    className="w-64 pl-10 pr-4 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-500"
+                  />
+                  <svg className="absolute left-3 top-2.5 w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                  </svg>
+                </div>
+                
+                <select className="px-4 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500">
+                  <option>All Status</option>
+                  <option>Active</option>
+                  <option>Bounced</option>
+                </select>
+                
+                <button className="flex items-center space-x-2 px-3 py-2 text-sm text-gray-600 dark:text-gray-400 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700">
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                  </svg>
+                  <span>Jun 18, 2026</span>
+                </button>
+              </div>
+            </div>
+          </div>
 
           {/* Sessions Table */}
           {filteredSessions.length === 0 && searchQuery ? (
-            <div className="card p-12 text-center">
+            <div className="py-12 text-center">
               <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">No matching sessions found</h3>
               <p className="text-gray-500 dark:text-gray-400">Try adjusting your search query</p>
             </div>

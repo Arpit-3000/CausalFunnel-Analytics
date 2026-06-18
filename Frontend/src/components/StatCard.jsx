@@ -1,25 +1,23 @@
-const StatCard = ({ title, value, icon, color = 'primary' }) => {
-  const colorClasses = {
-    primary: 'bg-primary-50 dark:bg-primary-900/20 text-primary-600 dark:text-primary-400',
-    green: 'bg-green-50 dark:bg-green-900/20 text-green-600 dark:text-green-400',
-    purple: 'bg-purple-50 dark:bg-purple-900/20 text-purple-600 dark:text-purple-400',
-    orange: 'bg-orange-50 dark:bg-orange-900/20 text-orange-600 dark:text-orange-400',
-  };
+const StatCard = ({ title, value, icon, color = 'primary', trend }) => {
+  const trendColor = trend?.startsWith('+') ? 'text-green-600' : 'text-red-600';
 
   return (
-    <div className="card p-6 hover:shadow-md transition-shadow duration-200">
-      <div className="flex items-center justify-between">
-        <div>
-          <p className="text-sm font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wide">
-            {title}
+    <div className="card p-6 hover:shadow-lg transition-all duration-200 border border-gray-100 dark:border-gray-700">
+      <div>
+        <p className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-2">
+          {title}
+        </p>
+        <p className="text-3xl font-bold text-gray-900 dark:text-white mb-1">
+          {value?.toLocaleString() || 0}
+        </p>
+        {trend && (
+          <p className={`text-xs font-medium ${trendColor} flex items-center`}>
+            <svg className="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+              <path fillRule="evenodd" d={trend.startsWith('+') ? "M3.293 9.707a1 1 0 010-1.414l6-6a1 1 0 011.414 0l6 6a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L4.707 9.707a1 1 0 01-1.414 0z" : "M16.707 10.293a1 1 0 010 1.414l-6 6a1 1 0 01-1.414 0l-6-6a1 1 0 111.414-1.414L9 14.586V3a1 1 0 012 0v11.586l4.293-4.293a1 1 0 011.414 0z"} clipRule="evenodd" />
+            </svg>
+            {trend} vs last week
           </p>
-          <p className="text-3xl font-bold text-gray-900 dark:text-white mt-2">
-            {value?.toLocaleString() || 0}
-          </p>
-        </div>
-        <div className={`w-12 h-12 rounded-lg ${colorClasses[color]} flex items-center justify-center text-2xl`}>
-          {icon}
-        </div>
+        )}
       </div>
     </div>
   );
