@@ -5,7 +5,12 @@ A full-stack User Analytics & Session Tracking application built as part of the 
 The application tracks user interactions such as page views and clicks, stores them in MongoDB, and provides a professional analytics dashboard for visualizing sessions, user journeys, and click heatmaps.
 
 ---
+## Note
 
+* The backend is hosted on Render's free tier. If the API has been inactive for some time, Render may put the service into sleep mode. In such cases, the first request can take around **1–2 minutes** to wake up the server. Please wait briefly and refresh the page if data does not load immediately.
+* To demonstrate analytics functionality, a small set of **mock/sample tracking data** has been pre-populated in the database. This allows the dashboard, session analytics, charts, and heatmap visualizations to be viewed without generating new events manually.
+
+---
 ## Live Demo
 
 ### Frontend (Vercel)
