@@ -182,32 +182,32 @@ CausalFunnel-Analytics/
 
 ---
 
-Backend API Endpoints
+## Backend API Endpoints
 Base URL
 http://localhost:5000
 Event & Session APIs
 Create Event
-POST /api/events
+### POST /api/events
 
 Create and store a new tracking event.
 
-Get All Sessions
-GET /api/sessions
+### Get All Sessions
+### GET /api/sessions
 
 Fetch all user sessions with event counts and session information.
 
 Get Session By ID
-GET /api/sessions/:sessionId
+### GET /api/sessions/:sessionId
 
 Retrieve all events belonging to a specific session.
 
 Get Heatmap Data
-GET /api/heatmap?pageUrl=/pricing
+### GET /api/heatmap?pageUrl=/pricing
 
 Retrieve click coordinates for generating page heatmaps.
 
 Get Overall Statistics
-GET /api/stats
+### GET /api/stats
 
 Returns:
 
@@ -215,21 +215,21 @@ Total Sessions
 Total Events
 Total Clicks
 Total Page Views
-Get All Tracked Pages
-GET /api/pages
+### Get All Tracked Pages
+### GET /api/pages
 
 Returns all unique tracked page URLs.
 
 Analytics APIs
 Events Trend
-GET /api/analytics/events-trend?days=7
+### GET /api/analytics/events-trend?days=7
 
 Returns event activity trend data for the specified number of days.
 
 Default: 7 Days
 
 Event Distribution
-GET /api/analytics/event-distribution
+### GET /api/analytics/event-distribution
 
 Returns distribution of tracked event types.
 
@@ -238,7 +238,7 @@ Example:
 Click Events
 Page Views
 Session Trend
-GET /api/analytics/session-trend?days=7
+### GET /api/analytics/session-trend?days=7
 
 Returns daily session growth trend.
 
@@ -246,7 +246,7 @@ Default: 7 Days
 
 Health Check
 Server Status
-GET /health
+### GET /health
 
 Used to verify that the backend server is running successfully.
 
