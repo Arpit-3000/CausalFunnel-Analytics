@@ -13,7 +13,6 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Serve static files (tracker.js, test.html)
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Logging
