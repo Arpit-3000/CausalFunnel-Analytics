@@ -10,7 +10,7 @@ The application tracks user interactions such as page views and clicks, stores t
 
 ### Frontend (Vercel)
 
-[Frontend Live Link]([YOUR_VERCEL_URL](https://causal-funnel-analytics-five.vercel.app/)
+[Frontend Live Link](https://causal-funnel-analytics-five.vercel.app/)
 
 ### Backend (Render)
 
